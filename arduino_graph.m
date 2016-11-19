@@ -9,12 +9,12 @@ else
     fopen(port);
     readasync(port);
     see=instrhwinfo('serial');
-    while isempty(see.AvailableSerialPorts())~=0
+    while isempty(see.SerialPorts)~=0
     a=fscanf(port);
     b=textscan(a,'%d');
     d=[d;b{1}(1) b{1}(2)];%build a matrix of data
     app.NumericEditField2.Value=b{1}(2);
-    plot(b{1}(1),b{1}(2),'.k');
+    %plot(b{1}(1),b{1}(2),'.k');
     pause(55/1000)
     see=instrhwinfo('serial');
     end
