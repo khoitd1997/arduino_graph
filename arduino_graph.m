@@ -17,16 +17,17 @@ else
     d=[d;b{1}(1) b{1}(2)];%build a matrix of data
     app.NumericEditField2.Value=b{1}(2);
     plot(b{1}(1),b{1}(2),'.k');
-    pause(55/1000)
+    pause(20/1000)
     see=instrhwinfo('serial');
     end
 %% cleaning up
     stopasync(port);
     fclose(port);
+    file_name=[strrep(datestr(now),':','`'),'.xlsm'];
+    xlswrite(file_name,d);%work but a little slow, tested with a small maxtrix, about the same time as writetable but no header
     clc
     clear a b se
     clear instrfind
-    disp(d)
     hold off
     %fclose(instrfind) will mostly fix any problems, use when u r doomed
     %https://www.mathworks.com/matlabcentral/answers/252467-xlswrite-function-is-continuosly-providing-error-error-using-xlswrite-line-219-invoke-error
