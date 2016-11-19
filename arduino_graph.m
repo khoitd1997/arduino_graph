@@ -16,10 +16,10 @@ else
     pause(500/1000);%wait to make sure the arduino finishes at least a few loops
 %% loop start here, loop until the arduino is unplugged(try bluetooth see if it works)
     while isempty(see.SerialPorts)~=1%check if there is any arduino plugged in
-    pause(25/1000)
+    pause(5/1000)
     a=fscanf(port);
     b=textscan(a,'%d');% %d is working fine but not for integer, try %f
-    pause(25/1000)
+    pause(5/1000)
     %build a matrix of data
     d(count,1)=b{1}(1);
     d(count,2)=b{1}(2);
@@ -39,7 +39,14 @@ else
     clc
     clear 
     clear instrfind
+    title('you are done, mate');
+    load gong.mat;
+    gong = audioplayer(y, Fs);
+    play(gong);
     hold off
+    pause(15)
+    close
     %fclose(instrfind) will mostly fix any problems relating to serial ports, use when u r doomed
     %https://www.mathworks.com/matlabcentral/answers/252467-xlswrite-function-is-continuosly-providing-error-error-using-xlswrite-line-219-invoke-error
+    %https://www.mathworks.com/help/matlab/import_export/record-and-play-audio.html#bsdl2fs-1
 end
