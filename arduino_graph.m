@@ -18,7 +18,7 @@ else
 %% loop start here, loop until the arduino is unplugged(try bluetooth see if it works)
     while isempty(see.SerialPorts)~=1%check if there is any arduino plugged in
     a=fscanf(port);
-    b=textscan(a,'%d');% %d is working fine but not for integer, try %f
+    b=textscan(a,'%f');% %d is working fine but not for integer, try %f
     %build a matrix of data
     if length(b{1})==1%sometimes matlab failed to get the second data column(happen only at large number)
         continue
@@ -45,7 +45,7 @@ else
     gong = audioplayer(y, Fs);
     play(gong);
     hold off
-    pause(15)
+    pause(10)
     close
     %fclose(instrfind) will mostly fix any problems relating to serial ports, use when u r doomed
     %https://www.mathworks.com/matlabcentral/answers/252467-xlswrite-function-is-continuosly-providing-error-error-using-xlswrite-line-219-invoke-error
