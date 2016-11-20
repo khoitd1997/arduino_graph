@@ -2,13 +2,13 @@
 % dude don't close the graph until u r done
 se=instrhwinfo('serial');%find the available port on tbe computer
 %d=[]; %empty array slows down data collection 
-d=ones(40000,2); %capable of storing 40000 run change as you need, limited only by ram of the computer
+d=ones(100000,2); %capable of storing 100000 run change as you need, limited only by ram of the computer
 count=1;
 if isempty(se.AvailableSerialPorts())
     return
 else
     hold on
-    title('Yeah if you can leave the graph open, that would be great');
+    title('         Yeah if you can leave the graph open, that would be great');
     a=se.AvailableSerialPorts();
     port=serial(a{1});
     fopen(port);
@@ -30,22 +30,23 @@ else
     see=instrhwinfo('serial');
     count=count+1;
     end
-%% cleaning up
+%% cleaning up and process the data
     stopasync(port);
     fclose(instrfind);
     file_name=[strrep(datestr(now),':','`'),'.xlsm']; 
     d(1,:)=[];%the first reading is actually the title
-    d=d(1:count,:);%only take from 1 to count 
+    d=d(1:count-2,:);%only take from 1 to count 
     xlswrite(file_name,d);%work but a little slow, tested with a small maxtrix, about the same time as writetable but no header
     clc
     clear 
     clear instrfind
-    title('you are done, mate');
+    title('         you are done, mate');
     load gong.mat;
     gong = audioplayer(y, Fs);
     play(gong);
     hold off
-    pause(10)
+    pause(10)% the graph will close after 10 seconds
+    clear y Fs gong
     close
     %fclose(instrfind) will mostly fix any problems relating to serial ports, use when u r doomed
     %https://www.mathworks.com/matlabcentral/answers/252467-xlswrite-function-is-continuosly-providing-error-error-using-xlswrite-line-219-invoke-error
