@@ -2,7 +2,7 @@
 % dude don't close the graph until u r done
 se=instrhwinfo('serial');%find the available port on tbe computer
 %d=[]; %empty array slows down data collection 
-d=ones(10000,2); %capable of storing 10000 run change as you need, limited only by ram of the computer
+d=ones(40000,2); %capable of storing 40000 run change as you need, limited only by ram of the computer
 count=1;
 if isempty(se.AvailableSerialPorts())
     return
@@ -34,7 +34,7 @@ else
     fclose(instrfind);
     file_name=[strrep(datestr(now),':','`'),'.xlsm']; 
     d(1,:)=[];%the first reading is actually the title
-    d(count-1:end,:)=[];%truncating the matrix from row number count to end
+    d=d(1:count,:);%only take from 1 to count 
     xlswrite(file_name,d);%work but a little slow, tested with a small maxtrix, about the same time as writetable but no header
     clc
     clear 
