@@ -8,24 +8,25 @@ if isempty(se.AvailableSerialPorts())
     return
 else
     hold on
+    title('Yeah if you can leave the graph open, that would be great');
     a=se.AvailableSerialPorts();
     port=serial(a{1});
     fopen(port);
     readasync(port);
     see=instrhwinfo('serial');
-    pause(500/1000);%wait to make sure the arduino finishes at least a few loops
+    pause(100/1000);%wait to make sure the arduino finishes at least a few loops
 %% loop start here, loop until the arduino is unplugged(try bluetooth see if it works)
     while isempty(see.SerialPorts)~=1%check if there is any arduino plugged in
-    pause(5/1000)
     a=fscanf(port);
     b=textscan(a,'%d');% %d is working fine but not for integer, try %f
-    pause(5/1000)
     %build a matrix of data
+    if length(b{1})==1%sometimes matlab failed to get the second data column(happen only at large number)
+        continue
+    end
     d(count,1)=b{1}(1);
     d(count,2)=b{1}(2);
-    title('Yeah if you can leave the graph open, that would be great');
     plot(b{1}(1),b{1}(2),'-*k');
-    pause(25/1000)
+    pause(20/1000)
     see=instrhwinfo('serial');
     count=count+1;
     end
